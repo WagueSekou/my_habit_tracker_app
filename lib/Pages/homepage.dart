@@ -23,6 +23,12 @@ class _HomePageState extends State<HomePage> {
   ];
 
   void habitStarted(int index) {
+    //checking if habit has already reached the goal time
+    if (habitList[index][2] >= habitList[index][3] * 60) {
+      //resetting the time when play is pressed again
+      habitList[index][2] = 0;
+    }
+
     //noting what start time is
     var startTime = DateTime.now();
 
@@ -40,14 +46,21 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           //calculating time elapes by comparing current time with start time
           var currentTime = DateTime.now();
-          habitList[index][2] = elapsedTime + currentTime.second -
+          habitList[index][2] = elapsedTime +
+              currentTime.second -
               startTime.second +
               60 * (currentTime.minute - startTime.minute) +
               60 * 60 * (currentTime.hour - startTime.hour);
 
           //checking when user has stoped the time
-          if (!habitList[index][1]) {
+          //or when goal is reached
+          if (!habitList[index][1] ||
+              habitList[index][2] >= habitList[index][3] * 60) {
             timer.cancel();
+            //if the goal time is reached , stop the habit without resetting the time spent
+            if (habitList[index][2] >= habitList[index][3] * 60) {
+              habitList[index][1] = false;
+            }
           }
         });
       });
@@ -74,7 +87,7 @@ class _HomePageState extends State<HomePage> {
           'Building new habits is the key',
           style: TextStyle(color: Colors.white),
         ),
-        centerTitle: false,
+        centerTitle: true,
       ),
       body: ListView.builder(
         itemCount: habitList.length,
