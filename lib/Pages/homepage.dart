@@ -80,15 +80,50 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.purple,
       appBar: AppBar(
         backgroundColor: Colors.purple[200],
-        title: Text(
-          'Building new habits is the key',
-          style: TextStyle(color: Colors.white),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Building new habits is the key',
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
         ),
         centerTitle: true,
       ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.purple[250],
+                ),
+                child: Text(
+                  'Habites',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text('Home'),
+                onTap: (){},
+              ),
+
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Settings'),
+                onTap: (){},
+              ),
+            ],
+          ),
+        ),
       body: ListView.builder(
         itemCount: habitList.length,
         itemBuilder: ((context, index) {
